@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=A Fraa in Orbit screensaver
+Comment=Start A Fraa in Orbit when the session has been idle
+Exec=fraa-in-orbit-screensaver watch
+Icon=fraa-in-orbit
+NoDisplay=true
+X-GNOME-Autostart-enabled=true

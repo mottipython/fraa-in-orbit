@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=A Fraa in Orbit
+Comment=To catch up, slow down: a fraa chases his sphere round Arbre
+Exec=fraa-in-orbit
+TryExec=fraa-in-orbit
+X-Screensaver-Standalone=true
+X-Screensaver-Snapshot=fraa-in-orbit --snapshot %o --size %wx%h --time 46.4

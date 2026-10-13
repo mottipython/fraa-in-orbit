@@ -1,0 +1,6 @@
+/* string 1 is the name Windows shows in its list of screensavers */
+1 ICON "packaging/windows/fraa-in-orbit.ico"
+STRINGTABLE
+BEGIN
+    1 "A Fraa in Orbit"
+END

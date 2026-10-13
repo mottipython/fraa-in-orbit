@@ -1,0 +1,19 @@
+Package: fraa-in-orbit
+Version: @VERSION@
+Section: games
+Priority: optional
+Architecture: @ARCH@
+Depends: libc6 (>= 2.38), libsdl2-2.0-0 (>= 2.0.18), swayidle
+Installed-Size: @SIZE@
+Maintainer: Motti Schleider <motti.schleider@gmail.com>
+Description: A fraa in orbit, a screensaver after "Anathem"
+ Orbital mechanics, after Neal Stephenson's novel Anathem. A fraa in orbit about
+ Arbre has let go of his sphere. Thrusting towards it only loses it; thrusting
+ away from it drops him into a lower, quicker orbit, and one turn later he has
+ it back. To catch up, slow down.
+ .
+ The orbits are computed, not drawn: the dotted line is the orbit his speed at
+ that moment puts him on.
+ .
+ On Wayland desktops it starts by itself after five minutes idle.
+ fraa-in-orbit-screensaver changes the delay or turns it off.

@@ -338,13 +338,20 @@ static void glow(double x, double y, double d, double alpha)
     SDL_RenderCopyF(ren, cur_tex[SP_GLOW], NULL, &dst);
     SDL_SetTextureAlphaMod(cur_tex[SP_GLOW], 255);
 }
-static void turned(int which, double x, double y, double tall, double deg)
+static void turned_flip(int which, double x, double y, double tall, double deg, int flip)
 {
     flush(ren);
     if (!cur_tex || !cur_tex[which]) return;
     double w = tall * sprite[which].w / sprite[which].h;
     SDL_FRect dst = {(float)(x - w / 2), (float)(y - tall / 2), (float)w, (float)tall};
-    SDL_RenderCopyExF(ren, cur_tex[which], NULL, &dst, deg, NULL, SDL_FLIP_NONE);
+    SDL_RenderCopyExF(ren, cur_tex[which], NULL, &dst, deg, NULL, flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+}
+static void turned(int which, double x, double y, double tall, double deg) { turned_flip(which, x, y, tall, deg, 0); }
+/* the fraa, `scale` of the screen height for the tallest drawing of him: all the
+ * drawings are to one scale, so he is the same size whatever he is doing */
+static void fraa(int pose, double x, double y, double scale, double deg, int flip)
+{
+    turned_flip(pose, x, y, sh * scale * sprite[pose].h / 420.0, deg, flip);
 }
 
 static void draw_caption(int w, int h, const char *l1, const char *l2)
@@ -374,7 +381,7 @@ static void draw_scene(SDL_Renderer *r, int w, int h)
     for (int i = 0; i < k; i++) t -= LENGTH[i];
 
     /* Arbre, turning */
-    glow(sx(0), sy(0), h * 0.158 * 3.0, 0.16);
+    glow(sx(0), sy(0), h * 0.158 * 3.0, 0.14);
     turned(SP_PLANET, sx(0), sy(0), h * 0.158 * 2, anim_t * 2.5);
 
     /* the sphere's orbit, a faint circle, and the orbit he is on now, dotted */
@@ -412,21 +419,24 @@ static void draw_scene(SDL_Renderer *r, int w, int h)
         double v = hypot(fvx, fvy), ux = fvx / v, uy = fvy / v, f = since / 1.0;
         for (int i = 0; i < 5; i++) {
             double d = (0.12 + 0.5 * f + 0.07 * i) * -thrust_way;
-            glow(sx(fx + ux * d), sy(fy + uy * d), h * (0.05 + 0.05 * f + 0.008 * i), (1 - f) * 0.8);
+            glow(sx(fx + ux * d), sy(fy + uy * d), h * (0.035 + 0.04 * f + 0.006 * i), (1 - f) * 0.42);
         }
     }
-    double tall = h * 0.115, bob = sin(anim_t * 1.3) * 4;
-    turned(pose, px, py, tall, bob);
+    /* the drawings of him reaching, straining and wailing face right; he is turned to
+     * face the sphere, which is the way he is going, or away from it to thrust back */
+    double bob = sin(anim_t * 1.3) * 4;
+    int sideways = pose == SP_F_DRIFT || pose == SP_F_THRUST || pose == SP_F_DISMAY, left = fvx < 0;
+    if (pose == SP_F_THRUST && thrust_way < 0) left = !left;
+    fraa(pose, px, py, 0.125, bob, sideways && left);
 
     /* and close to, so that his face can be seen */
     {
-        double pw = w * 0.17, ph = h * 0.36, x0 = w * 0.035, y0 = h * 0.5, b = unit * 0.5;
+        double pw = h * 0.36, ph = h * 0.36, x0 = w * 0.03, y0 = h * 0.52, b = unit * 0.5;
         rect(x0 - b, y0 - b, pw + 2 * b, ph + 2 * b, col(INK, 1));
         rect(x0 - b * 0.55, y0 - b * 0.55, pw + b * 1.1, ph + b * 1.1, col(THREAD, 1));
         rect(x0, y0, pw, ph, col(DEEP, 1));
         flush(r);
-        double fit = fmin(ph * 0.84, pw * 0.86 * sprite[pose].h / sprite[pose].w);
-        turned(pose, x0 + pw / 2, y0 + ph / 2 + sin(anim_t * 1.3) * unit * 0.5, fit, bob * 0.6);
+        fraa(pose, x0 + pw / 2, y0 + ph / 2 + sin(anim_t * 1.3) * unit * 0.5, 0.3, bob * 0.6, sideways && left);
     }
 
     const char *l1 = "", *l2 = "";

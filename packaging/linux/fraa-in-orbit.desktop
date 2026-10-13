@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=A Fraa in Orbit
+Comment=To catch up, slow down: a fraa chases his sphere round Arbre
+Exec=fraa-in-orbit --window
+Icon=fraa-in-orbit
+Categories=Game;LogicGame;Education;Math;
+Keywords=Anathem;orbit;space;physics;screensaver;
