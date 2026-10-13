@@ -1,7 +1,6 @@
 # A Fraa in Orbit
 
-A screensaver of orbital mechanics, after Neal Stephenson's novel *Anathem*. Runs on
-Linux and Windows. One of the [Anathem screensavers](https://github.com/mottipython/anathem-screensavers).
+A screensaver of orbital mechanics, after Neal Stephenson's novel *Anathem*. Runs on Linux, Windows and macOS. One of the [Anathem screensavers](https://github.com/mottipython/anathem-screensavers).
 
 ![One turn later they meet](docs/screenshots/05-they-meet.jpg)
 
